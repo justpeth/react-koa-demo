@@ -56,7 +56,7 @@ export const LoginWrapper = styled.div`
     justify-content:flex-end;
     font-size:12px;
     color:#999;
-    a{
+    span{
       color:#4db6ac;
       cursor:pointer;
       &:hover{
@@ -64,6 +64,18 @@ export const LoginWrapper = styled.div`
       }
       &:active{
         color:#00796b;
+      }
+    }
+  }
+  .checkbox{
+    display:flex;
+    align-items:center;
+    label{
+      display:inline-flex;
+      align-items:center;
+      margin-right:12px;
+      input{
+        margin-right:4px;
       }
     }
   }

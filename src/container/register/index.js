@@ -15,7 +15,8 @@ class Login extends Component{
     this.state = {
       username: '',
       password: '',
-      rpassword: ''
+      rpassword: '',
+      type: ''
     };
     this.login = this.login.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
@@ -34,11 +35,19 @@ class Login extends Component{
         <label htmlFor="rpassword" className="label">
           <input id="rpassword" type="password" placeholder="确认密码" onChange={v=>this.handleChange('rpassword',v)} value={rpassword}/>
         </label>
+        <div className="checkbox" onChange={v=>this.handleChange('type',v)}>
+          <label htmlFor="hunter">
+            <input type="radio" id='hunter' name="type" value="boss"/>Boss
+          </label>
+          <label htmlFor="boss">
+            <input type="radio" id='boss' name="type" value="hunter"/>牛人
+          </label>
+        </div>
         <div className="btn-wrapper">
           <button onClick={this.handleRegister}>注册</button>
         </div>
         <div className="txt-con">
-          已有账号？前去<a onClick={this.login}>登录</a>!
+          已有账号？前去<span onClick={this.login}>登录</span>
         </div>
       </LoginWrapper>
     )

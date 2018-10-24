@@ -34,7 +34,7 @@ class Login extends Component{
           <button onClick={this.handleLogin}>登录</button>
         </div>
         <div className="txt-con">
-          还没账号？马上<a onClick={this.register}>注册</a>!
+          还没账号？马上<span onClick={this.register}>注册</span>
         </div>
       </LoginWrapper>
     )
