@@ -4,7 +4,13 @@ export default {
   getUsers(params){
     return Ajax({
       url: '/users',
-      params
+      params,
+      loading: false
+    })
+  },
+  getUserInfo(){
+    return Ajax({
+      url: 'users/info'
     })
   }
 }
