@@ -1,50 +1,53 @@
 const mongoose = require('mongoose');
 const DB_URL = "mongodb://localhost:27017/demo";
-mongoose.connect(DB_URL);
+mongoose.connect(DB_URL, {useNewUrlParser: true});
 const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('conect mongodb success');
 });
 
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    require: true
+
+const models = {
+  user: {
+    username: {
+      type: String,
+      require: true
+    },
+    password: {
+      type: String,
+      require: true
+    },
+    type: {
+      type: String,
+      require: true
+    },
+    avator: {
+      type: String,
+    },
+    desc: {
+      type: String
+    },
+    // 职位名
+    title: {
+      type: String
+    },
+    // 如果是boss 
+    company: {
+      type: String
+    },
+    money: {
+      type: String
+    }
   },
-  age: {
-    type: Number,
-    require: true
+  chat: {
+
   }
-});
-
-const User = mongoose.model('Users', UserSchema);
-
-// const users = [
-//   {
-//     name: 'aaa',
-//     age: 18
-//   },
-//   {
-//     name: 'bbb',
-//     age: 19
-//   },
-//   {
-//     name: 'ccc',
-//     age: 20
-//   }
-// ]
-
-// User.create(users, (err, doc) => {
-//   if(err) {
-//     console.log(err)
-//   }
-//   else console.log(doc);
-// })
-
-// User.remove({}, (err, doc) => {
-//   console.log(err, doc)
-// })
-
-module.exports = User;
+}
+for (let key in models) {
+  mongoose.model(key, new mongoose.Schema(models[key]))
+}
+module.exports = {
+  getModel: function(name){
+    return mongoose.model(name)
+  }
+};

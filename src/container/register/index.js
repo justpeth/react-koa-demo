@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-
+import { register } from '../../store/user.redux';
 import {
   LoginWrapper
 } from '../login/style';
 @withRouter
 @connect(
-  state => state.user
+  state => state.user,
+  {register}
 )
 class Login extends Component{
   constructor(props){
@@ -35,12 +36,12 @@ class Login extends Component{
         <label htmlFor="rpassword" className="label">
           <input id="rpassword" type="password" placeholder="确认密码" onChange={v=>this.handleChange('rpassword',v)} value={rpassword}/>
         </label>
-        <div className="checkbox" onChange={v=>this.handleChange('type',v)}>
+        <div className="checkbox">
           <label htmlFor="hunter">
-            <input type="radio" id='hunter' name="type" value="boss"/>Boss
+            <input type="radio" id='hunter' name="type" value="boss" onChange={v=>this.handleChange('type',v)}/>Boss
           </label>
           <label htmlFor="boss">
-            <input type="radio" id='boss' name="type" value="hunter"/>牛人
+            <input type="radio" id='boss' name="type" value="hunter" onChange={v=>this.handleChange('type',v)}/>牛人
           </label>
         </div>
         <div className="btn-wrapper">
@@ -62,7 +63,7 @@ class Login extends Component{
     this.props.history.push('/login')
   }
   handleRegister(){
-    console.log('click register')
+    this.props.register(this.state)
   }
 }
 export default Login;

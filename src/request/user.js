@@ -12,5 +12,13 @@ export default {
     return Ajax({
       url: 'users/info'
     })
+  },
+  // 注册用
+  doRegister(params){
+    return Ajax({
+      url: 'users/doregister',
+      params,
+      type: 'post'
+    });
   }
 }

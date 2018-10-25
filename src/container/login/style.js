@@ -74,6 +74,7 @@ export const LoginWrapper = styled.div`
       display:inline-flex;
       align-items:center;
       margin-right:12px;
+      cursor:pointer;
       input{
         margin-right:4px;
       }

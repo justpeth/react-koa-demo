@@ -7,17 +7,20 @@ const ERROR_MSG = 'ERROR_MSG'
 
 // actionCreators
 
-export function register({username, pwd, rpwd, type}){
-	if(!username || !pwd || !type) {
+export function register({username, password, rpassword, type}){
+	if(!username || !password) {
 		return errorMsg('用户名密码必须输入');
 	}
-	if(pwd !== rpwd) {
+	if(!type){
+		return errorMsg('必须选择用户类型');
+	}
+	if(password !== rpassword) {
 		return errorMsg('密码和确认密码必须相同');
 	}
 	return dispatch => {
-		Ajax.doRegister()
+		Ajax.doRegister({username, password, rpassword, type})
 			.then(res => {
-				
+				console.log(res);
 			})
 	}
 }
