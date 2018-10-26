@@ -11,6 +11,13 @@ import Authorize from './components/authorize';
 import Login from './container/login'
 import Register from './container/register'
 
+function bossinfo () {
+  return (<div>bossinfo</div>)
+}
+
+function hunterinfo () {
+  return (<div>hunterinfo</div>)
+}
 
 class App extends Component {
   componentDidMount () {
@@ -28,6 +35,8 @@ class App extends Component {
             <Authorize></Authorize>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/bossinfo" component={bossinfo} />
+            <Route path="/hunterinfo" component={hunterinfo} />
           </Fragment>
         </Router>
       </Provider>

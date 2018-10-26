@@ -1,5 +1,6 @@
 import Ajax from '../request'
 
+import { getRedirectPath } from '../utils';
 // const 
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const LOGIN_SUCESS = 'LOGIN_SUCESS'
@@ -21,6 +22,11 @@ export function register({username, password, rpassword, type}){
 		Ajax.doRegister({username, password, rpassword, type})
 			.then(res => {
 				console.log(res);
+				if(res.code === 0) {
+					dispatch(registerSuccess(res.data))
+				} else {
+					dispatch(errorMsg(res.message))
+				}
 			})
 	}
 }
@@ -49,14 +55,16 @@ const initState= {
 export function user (state = initState, action) {
 	switch(action.type) {
 		case REGISTER_SUCCESS: 
+			console.log(action.payload.type, getRedirectPath(action.payload.type))
 			return {
 				...state,
 				message: '',
+				redirectTo: getRedirectPath( {type: action.payload.type}),
 				isAuthrize: true,
 				...action.payload
 			}
 		case ERROR_MSG: 
-			return {
+			return { 
 				...state,
 				message: action.message,
 				isAuthrize: false,
