@@ -2,8 +2,12 @@ const mongoose = require('mongoose');
 const DB_URL = "mongodb://localhost:27017/demo";
 mongoose.connect(DB_URL, {useNewUrlParser: true});
 const db = mongoose.connection;
-db.once('open', function() {
-  console.log('conect mongodb success');
+mongoose.Promise = global.Promise;
+db.on('error', function(){
+  console.log('数据库连接出错！');
+});
+db.on('open', function() {
+  console.log('数据库连接成功！');
 });
 
 
