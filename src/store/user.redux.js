@@ -1,10 +1,11 @@
 import Ajax from '../request'
-
 import { getRedirectPath } from '../utils';
+import Toast from '../components/toast';
 // const 
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const LOGIN_SUCESS = 'LOGIN_SUCESS'
 const ERROR_MSG = 'ERROR_MSG'
+const LOAD_USER_DATA = 'LOAD_USER_DATA'
 
 // actionCreators
 
@@ -21,16 +22,36 @@ export function register({username, password, rpassword, type}){
 	return dispatch => {
 		Ajax.doRegister({username, password, rpassword, type})
 			.then(res => {
-				console.log(res);
 				if(res.code === 0) {
 					dispatch(registerSuccess(res.data))
-				} else {
-					dispatch(errorMsg(res.message))
 				}
 			})
 	}
 }
+
+export function login({username, password}){
+	if(!username || !password) {
+		return errorMsg('用户名密码必须输入');
+	}
+	return dispatch => {
+		Ajax.login({username, password})
+			.then(res => {
+				if(res.code === 0) {
+					dispatch(loginSuccess(res.data))
+				}
+			})
+	}
+}
+
+export function loadUserData(userInfo){
+	return {
+		type: LOAD_USER_DATA,
+		payload: userInfo
+	}
+}
+
 function errorMsg(message){
+	Toast({message})
 	return {
 		message,
 		type: ERROR_MSG
@@ -42,7 +63,12 @@ function registerSuccess(data){
 		type: REGISTER_SUCCESS
 	}
 }
-
+function loginSuccess(data){
+	return {
+		payload: data,
+		type: LOGIN_SUCESS
+	}
+}
 
 // reducer
 const initState= {
@@ -54,13 +80,25 @@ const initState= {
 };
 export function user (state = initState, action) {
 	switch(action.type) {
-		case REGISTER_SUCCESS: 
-			console.log(action.payload.type, getRedirectPath(action.payload.type))
+		case REGISTER_SUCCESS:
 			return {
 				...state,
 				message: '',
 				redirectTo: getRedirectPath( {type: action.payload.type}),
 				isAuthrize: true,
+				...action.payload
+			}
+		case LOGIN_SUCESS:
+			return {
+				...state,
+				message: '',
+				redirectTo: getRedirectPath( {type: action.payload.type}),
+				isAuthrize: true,
+				...action.payload
+			}
+		case LOAD_USER_DATA:
+			return {
+				...state,
 				...action.payload
 			}
 		case ERROR_MSG: 

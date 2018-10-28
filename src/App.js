@@ -20,13 +20,6 @@ function hunterinfo () {
 }
 
 class App extends Component {
-  componentDidMount () {
-    Ajax.getUsers({
-      name: 'aaa'
-    }).then(res=>{
-      console.log(res)
-    })
-  }
   render() {
     return (
       <Provider store={store}>

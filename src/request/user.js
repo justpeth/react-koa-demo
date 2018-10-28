@@ -20,5 +20,12 @@ export default {
       params,
       type: 'post'
     });
+  },
+  login(params){
+    return Ajax({
+      url: 'users/login',
+      params,
+      type: 'post'
+    })
   }
 }

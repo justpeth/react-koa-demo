@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import { register } from '../../store/user.redux';
 import Toast from '../../components/toast'
 import {
   LoginWrapper
 } from '../login/style';
-@withRouter
 @connect(
   state => state.user,
   {register}
@@ -56,7 +55,6 @@ class Login extends Component{
         <div className="txt-con">
           已有账号？前去<span onClick={this.login}>登录</span>
         </div>
-        <button onClick={this.handleToast}>toast</button>
       </LoginWrapper>
     )
   }
@@ -71,9 +69,6 @@ class Login extends Component{
   }
   handleRegister(){
     this.props.register(this.state)
-  }
-  handleToast () {
-    Toast({message:123})
   }
 }
 export default Login;

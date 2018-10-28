@@ -3,9 +3,9 @@ const model = require('./model');
 const User = model.getModel('user');
 
 //根据用户名查找用户
-const findUser = (username) => {
+const findUser = (params) => {
   return new Promise((resolve, reject) => {
-    User.findOne({ username }, (err, doc) => {
+    User.findOne({ ...params },{password: false, __v: false}, (err, doc) => {
       if(err){
         reject(err);
       }
@@ -13,10 +13,11 @@ const findUser = (username) => {
     });
   });
 };
+// 
 //找到所有用户
-const findAllUsers = () => {
+const findAllUsers = (params) => {
   return new Promise((resolve, reject) => {
-    User.find({}, {_id: false, __v: false, password: false}, (err, doc) => {
+    User.find({...params}, {__v: false, password: false}, (err, doc) => {
       if(err){
         reject(err);
       }
@@ -36,8 +37,6 @@ const delUser = function(username){
     });
   });
 };
-
-
 const Register = async ( ctx ) => {
   let { username, password, type} = ctx.request.body.params
   let pwd = md5Pwd(password);
@@ -46,25 +45,25 @@ const Register = async ( ctx ) => {
     password: pwd, 
     type
   });
- 
-  let doc = await findUser(user.username);
+  let doc = await findUser({username: user.username});
   if(doc){ 
-    console.log('用户名已经存在');
+    console.log(`用户名 ${username} 已经存在`);
     ctx.status = 200;
     ctx.body = {
       code: 1,
-      message: '用户名已存在'
+      message: `用户名 ${username} 已经存在`
     };
   }else{
-    await new Promise((resolve, reject) => {
-      user.save((err) => {
+    let doc = await new Promise((resolve, reject) => {
+      user.save((err, doc) => {
         if(err){
           reject(err);
         }  
-        resolve();
+        resolve(doc);
       });
     });
-    console.log('注册成功');
+    console.log(`用户：${doc.username} 注册成功`);
+    ctx.cookies.set('userid', doc._id);
     ctx.status = 200;
     ctx.body = {
       code: 0,
@@ -77,6 +76,46 @@ const Register = async ( ctx ) => {
     }
   }
 };
+
+// 登录
+const Login = async (ctx) => {
+  let { username, password} = ctx.request.body.params
+  let doc = await findUser({username, password: md5Pwd(password)});
+  if(doc){ 
+    console.log(`用户：${doc.username} 登录成功`)
+    ctx.status = 200;
+    ctx.cookies.set('userid', doc._id)
+    ctx.body = {
+      code: 0,
+      data: doc
+    };
+  } else {
+    ctx.status = 200;
+    ctx.body = {
+      code: 1,
+      message: '用户名不存在或者密码错误'
+    }
+  }
+}
+
+const GetUserInfo = async (ctx) => {
+  let userid = ctx.cookies.get('userid');
+  if(userid){
+    let doc = await findUser({ _id:userid});
+    if(doc){
+      ctx.body = {
+        code: 0,
+        data: doc
+      }
+    }
+  }
+  else {
+    ctx.body = {
+      code:1,
+      message: ''
+    }
+  }
+}
 
 const GetAllUsers = async( ctx ) => {
   //查询所有用户信息
@@ -105,6 +144,8 @@ function md5Pwd(str){
 }
 module.exports = {
   Register,
+  Login,
+  GetUserInfo,
   GetAllUsers,
   DelUser
 };

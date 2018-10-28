@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Toast from '../components/toast'
 
 // import Toast from '../components/toast';
 
@@ -12,7 +13,6 @@ const Ajax = (params) => {
   
   if(config.loading){
     // Add a request interceptor
-
     axios.interceptors.request.use( (config) => {
       // Do something before request is sent
       return config;
@@ -37,7 +37,10 @@ const Ajax = (params) => {
         params: config.params
       })
         .then((res)=>{
-          if(res.status === 200 ) {
+          if(res.status === 200) {
+            if(res.data.code === 1){
+              Toast({message: res.data.message})
+            }
             resolve(res.data);
           }
         })
@@ -45,9 +48,9 @@ const Ajax = (params) => {
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
+            //console.error(error.response.data);
+            //console.log(error.response.status);
+            //console.log(error.response.headers);
           } else if (error.request) {
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -57,7 +60,7 @@ const Ajax = (params) => {
             // Something happened in setting up the request that triggered an Error
             console.log('Error', error.message);
           }
-          console.log(error.config);
+          //console.log(error.config);
           reject(error);
         });
     })
@@ -67,7 +70,10 @@ const Ajax = (params) => {
         params: config.params
       })
         .then((res)=>{
-          if(res.status === 200 ) {
+          if(res.status === 200) {
+            if(res.data.code === 1){
+              Toast({message: res.data.message})
+            }
             resolve(res.data);
           }
         })
@@ -75,9 +81,9 @@ const Ajax = (params) => {
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
+            //console.log(error.response.data);
+            //console.log(error.response.status);
+            //console.log(error.response.headers);
           } else if (error.request) {
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -87,7 +93,7 @@ const Ajax = (params) => {
             // Something happened in setting up the request that triggered an Error
             console.log('Error', error.message);
           }
-          console.log(error.config);
+          //console.log(error.config);
           reject(error);
         });
     })
