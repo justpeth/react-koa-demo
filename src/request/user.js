@@ -27,5 +27,13 @@ export default {
       params,
       type: 'post'
     })
+  },
+  // 更新信息
+  update(params){
+    return Ajax({
+      url: 'users/update',
+      params,
+      type: 'post'
+    })
   }
 }

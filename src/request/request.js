@@ -11,25 +11,29 @@ const Ajax = (params) => {
     loading: true
   }, params)
   
-  if(config.loading){
-    // Add a request interceptor
-    axios.interceptors.request.use( (config) => {
-      // Do something before request is sent
-      return config;
-    }, function (error) {
-      // Do something with request error
-      return Promise.reject(error);
-    });
+  // if(config.loading){
+  //   // Add a request interceptor
+  //   axios.interceptors.request.use( (config) => {
+  //     // Do something before request is sent
+  //     return config;
+  //   }, function (error) {
+  //     // Do something with request error
+  //     return Promise.reject(error);
+  //   });
 
-    // Add a response interceptor
-    axios.interceptors.response.use( (response) => {
-      // Do something with response data
-      console.log('responsed')
-      return response;
-    }, function (error) {
-      // Do something with response error
-      return Promise.reject(error);
-    });
+  //   // Add a response interceptor
+  //   axios.interceptors.response.use( (response) => {
+  //     // Do something with response data
+  //     console.log('responsed')
+  //     return response;
+  //   }, function (error) {
+  //     // Do something with response error
+  //     return Promise.reject(error);
+  //   });
+  // }
+
+  if(config.loading){
+    
   }
   if(config.type === 'get') {
     return new Promise((resolve, reject) => {

@@ -5,7 +5,7 @@ const User = model.getModel('user');
 //根据用户名查找用户
 const findUser = (params) => {
   return new Promise((resolve, reject) => {
-    User.findOne({ ...params },{password: false, __v: false}, (err, doc) => {
+    User.findOne(params, {password: false, __v: false}, (err, doc) => {
       if(err){
         reject(err);
       }
@@ -17,7 +17,7 @@ const findUser = (params) => {
 //找到所有用户
 const findAllUsers = (params) => {
   return new Promise((resolve, reject) => {
-    User.find({...params}, {__v: false, password: false}, (err, doc) => {
+    User.find(params, {__v: false, password: false}, (err, doc) => {
       if(err){
         reject(err);
       }
@@ -77,6 +77,27 @@ const Register = async ( ctx ) => {
   }
 };
 
+// 根据用户id查找用户并且修改用户对应信息
+const findByIdAndUpdate = (id, params) => {
+  return new Promise(( resolve, reject) => {
+    let filter = { 
+      fields: { 
+        password: false,
+        __v: false,
+        _id: false
+      },
+      new: true 
+    }
+    User.findByIdAndUpdate(id, params,filter , (err, doc) => {
+      if(err){
+        reject(err);
+      }
+      console.log(`更新用户${doc._id} ：信息成功`);
+      resolve(doc);
+    });
+  });
+}
+
 // 登录
 const Login = async (ctx) => {
   let { username, password} = ctx.request.body.params
@@ -97,6 +118,8 @@ const Login = async (ctx) => {
     }
   }
 }
+
+
 
 const GetUserInfo = async (ctx) => {
   let userid = ctx.cookies.get('userid');
@@ -138,6 +161,23 @@ const DelUser = async( ctx ) => {
   };
 };
 
+const Update = async (ctx) => {
+  let userid = ctx.cookies.get('userid');
+  let params = ctx.request.body.params;
+  if(!userid){
+    ctx.body = {
+      code: 1
+    }
+  }
+  await findByIdAndUpdate(userid, params).then(res => {
+    ctx.status = 200;
+    ctx.body = {
+      code: 0,
+      data: res
+    }
+  })
+}
+
 function md5Pwd(str){
   const salt = 'justPeth_react__KOA_demo@version.1'
   return utils.md5(utils.md5(str));
@@ -147,5 +187,6 @@ module.exports = {
   Login,
   GetUserInfo,
   GetAllUsers,
-  DelUser
+  DelUser,
+  Update
 };

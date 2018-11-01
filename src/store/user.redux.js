@@ -1,7 +1,10 @@
 import Ajax from '../request'
 import { getRedirectPath } from '../utils';
 import Toast from '../components/toast';
-// const 
+
+
+// const
+const AUTH_SUCCESS = 'AUTH_SUCCESS' 
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const LOGIN_SUCESS = 'LOGIN_SUCESS'
 const ERROR_MSG = 'ERROR_MSG'
@@ -43,6 +46,17 @@ export function login({username, password}){
 	}
 }
 
+export function update(params){
+	return dispatch => {
+		Ajax.update(params).then(res => {
+			console.log(res);
+			if(res.code === 0){
+				dispatch(authSuccess(res.data))
+			}
+		})
+	}
+}
+
 export function loadUserData(userInfo){
 	return {
 		type: LOAD_USER_DATA,
@@ -70,6 +84,13 @@ function loginSuccess(data){
 	}
 }
 
+function authSuccess (data){
+	return {
+		payload: data,
+		type: AUTH_SUCCESS
+	}
+}
+
 // reducer
 const initState= {
 	redirectTo: '', // 跳转页面
@@ -80,12 +101,18 @@ const initState= {
 };
 export function user (state = initState, action) {
 	switch(action.type) {
+		case AUTH_SUCCESS: 
+			return {
+				...state,
+				message: '',
+				redirectTo: getRedirectPath( {type: action.payload.type}),
+				...action.payload
+			}
 		case REGISTER_SUCCESS:
 			return {
 				...state,
 				message: '',
 				redirectTo: getRedirectPath( {type: action.payload.type}),
-				isAuthrize: true,
 				...action.payload
 			}
 		case LOGIN_SUCESS:
@@ -93,7 +120,6 @@ export function user (state = initState, action) {
 				...state,
 				message: '',
 				redirectTo: getRedirectPath( {type: action.payload.type}),
-				isAuthrize: true,
 				...action.payload
 			}
 		case LOAD_USER_DATA:
@@ -110,6 +136,5 @@ export function user (state = initState, action) {
 		default:
 			return state;
 	}
-	return state;
 }
 

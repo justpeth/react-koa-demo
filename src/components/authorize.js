@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Ajax from '../request';
@@ -9,7 +9,7 @@ import {loadUserData} from '../store/user.redux'
   null,
   {loadUserData}
 )
-class Authorize extends Component{
+class Authorize extends React.Component{
   componentDidMount(){
     const list = ['/login', '/register'];
     const {history, loadUserData} = this.props;

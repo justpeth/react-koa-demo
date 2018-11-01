@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import { register } from '../../store/user.redux';
-import Toast from '../../components/toast'
 import {
   LoginWrapper
 } from '../login/style';
@@ -30,7 +29,7 @@ class Login extends Component{
       <LoginWrapper>
         {redirectTo ? <Redirect to={redirectTo}/> : null }
         <h3 className="title">新用户注册</h3>
-        <form action="javascript:void(0);">
+        <form action="return false;">
           <label htmlFor="username" className="label">
             <input id="username" type="text" placeholder="用户名" onChange={v=>this.handleChange('username',v)} value={username}/>
           </label>
