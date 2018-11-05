@@ -69,7 +69,6 @@ const Register = async ( ctx ) => {
       code: 0,
       data: {
         username,
-        password: pwd,
         type
       },
       message: '注册成功'
@@ -84,11 +83,12 @@ const findByIdAndUpdate = (id, params) => {
       fields: { 
         password: false,
         __v: false,
-        _id: false
+        _id: false,
       },
       new: true 
     }
-    User.findByIdAndUpdate(id, params,filter , (err, doc) => {
+    let param = Object.assign({integrity: true}, params)
+    User.findByIdAndUpdate(id, param, filter, (err, doc) => {
       if(err){
         reject(err);
       }
@@ -105,7 +105,7 @@ const Login = async (ctx) => {
   if(doc){ 
     console.log(`用户：${doc.username} 登录成功`)
     ctx.status = 200;
-    ctx.cookies.set('userid', doc._id)
+    ctx.cookies.set('userid', doc._id);
     ctx.body = {
       code: 0,
       data: doc
@@ -124,13 +124,24 @@ const Login = async (ctx) => {
 const GetUserInfo = async (ctx) => {
   let userid = ctx.cookies.get('userid');
   if(userid){
-    let doc = await findUser({ _id:userid});
-    if(doc){
-      ctx.body = {
-        code: 0,
-        data: doc
+    await findUser({ _id:userid}).then(res => {
+      if(res){
+        ctx.body = {
+          code: 0,
+          data: res
+        }
+      } else {
+        ctx.body = {
+          code:1,
+          message: '用户不存在'
+        }
       }
-    }
+    }).catch(err=> {
+      ctx.body = {
+        code:1,
+        message: '数据库出错'
+      }
+    })
   }
   else {
     ctx.body = {

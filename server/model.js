@@ -25,8 +25,8 @@ const models = {
       type: String,
       require: true
     },
-    avator: {
-      type: String,
+    integrity: {
+      type: Boolean,
     },
     desc: {
       type: String

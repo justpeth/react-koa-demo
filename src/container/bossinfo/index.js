@@ -9,7 +9,7 @@ import {
   InfoWrapper
 } from './style.js';
 
-
+@withRouter
 @connect(
   state=>state.user,
   {update}
@@ -28,8 +28,10 @@ class BossInfo extends Component {
   }
   render () {
     let { title, company, money, desc } = this.state;
+    const { redirectTo } = this.props;
     return (
       <div>
+        {redirectTo ? <Redirect to={redirectTo}/> : null }
         <InfoHeader><span>Boss信息完善页面</span></InfoHeader>
         <InfoWrapper>
           <div className="input-list">

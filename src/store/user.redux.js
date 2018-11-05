@@ -4,9 +4,7 @@ import Toast from '../components/toast';
 
 
 // const
-const AUTH_SUCCESS = 'AUTH_SUCCESS' 
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
-const LOGIN_SUCESS = 'LOGIN_SUCESS'
+const AUTH_SUCCESS = 'AUTH_SUCCESS'
 const ERROR_MSG = 'ERROR_MSG'
 const LOAD_USER_DATA = 'LOAD_USER_DATA'
 
@@ -46,9 +44,12 @@ export function login({username, password}){
 	}
 }
 
-export function update(params){
+export function update({title, desc, company, money}){
+	if(!title || !desc || !company || !money) {
+		return errorMsg('请输入完整的信息');
+	}
 	return dispatch => {
-		Ajax.update(params).then(res => {
+		Ajax.update({title, desc, company, money}).then(res => {
 			console.log(res);
 			if(res.code === 0){
 				dispatch(authSuccess(res.data))
@@ -74,13 +75,13 @@ function errorMsg(message){
 function registerSuccess(data){
 	return {
 		payload: data,
-		type: REGISTER_SUCCESS
+		type: AUTH_SUCCESS
 	}
 }
 function loginSuccess(data){
 	return {
 		payload: data,
-		type: LOGIN_SUCESS
+		type: AUTH_SUCCESS
 	}
 }
 
@@ -94,7 +95,6 @@ function authSuccess (data){
 // reducer
 const initState= {
 	redirectTo: '', // 跳转页面
-	isAuthrize: false, // 是否登录 默认未登录
 	message: '',	// 登录或者注册显示的message 空时表示注册登录成功 不为空则为失败的消息
   username: '', // 用户姓名
 	type: '' // 用户类型 boss 或者 牛人
@@ -105,21 +105,7 @@ export function user (state = initState, action) {
 			return {
 				...state,
 				message: '',
-				redirectTo: getRedirectPath( {type: action.payload.type}),
-				...action.payload
-			}
-		case REGISTER_SUCCESS:
-			return {
-				...state,
-				message: '',
-				redirectTo: getRedirectPath( {type: action.payload.type}),
-				...action.payload
-			}
-		case LOGIN_SUCESS:
-			return {
-				...state,
-				message: '',
-				redirectTo: getRedirectPath( {type: action.payload.type}),
+				redirectTo: getRedirectPath( action.payload),
 				...action.payload
 			}
 		case LOAD_USER_DATA:
