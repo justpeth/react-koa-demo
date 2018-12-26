@@ -44,8 +44,11 @@ export function login({username, password}){
 	}
 }
 
-export function update({title, desc, company, money}){
-	if(!title || !desc || !company || !money) {
+export function update({type, title, desc, company, money}){
+	if (type === 'boss' && !company) {
+		return errorMsg('请输入完整的信息');
+	}
+	if(!title || !desc || !money) {
 		return errorMsg('请输入完整的信息');
 	}
 	return dispatch => {

@@ -17,7 +17,7 @@ const findUser = (params) => {
 //找到所有用户
 const findAllUsers = (params) => {
   return new Promise((resolve, reject) => {
-    User.find(params, {__v: false, password: false}, (err, doc) => {
+    User.find(params,  (err, doc) => {
       if(err){
         reject(err);
       }
@@ -190,8 +190,10 @@ const Update = async (ctx) => {
 }
 
 function md5Pwd(str){
-  const salt = 'justPeth_react__KOA_demo@version.1'
-  return utils.md5(utils.md5(str));
+  const salt = `justPeth_react_${str}_KOA_demo@version.1`
+  const salt1 = utils.md5(salt)
+  const salt2 = `${salt1}@?%#!Asdcx__?!`
+  return utils.md5(salt2);
 }
 module.exports = {
   Register,

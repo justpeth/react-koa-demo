@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-
 import {update} from '../../store/user.redux';
-
 import {
   InfoHeader,
   InfoWrapper
-} from './style.js';
+} from '../bossinfo/style';
 
 @withRouter
 @connect(
   state=>state.user,
   {update}
 )
-class BossInfo extends Component {
+class HunterInfo extends Component {
   constructor (props){
     super(props);
     this.state = {
-      type: 'boss',
+      type: 'hunter',
       title: '',
-      company: '',
       money: '',
       desc: ''
     }
@@ -28,35 +25,29 @@ class BossInfo extends Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
   render () {
-    let { title, company, money, desc } = this.state;
+    let { title, money, desc } = this.state;
     const { redirectTo } = this.props;
     return (
       <div>
         {redirectTo ? <Redirect to={redirectTo}/> : null }
-        <InfoHeader><span>Boss信息完善页面</span></InfoHeader>
+        <InfoHeader><span>hunter信息完善页面</span></InfoHeader>
         <InfoWrapper>
           <div className="input-list">
-            <div className="left">招聘职位</div>
+            <div className="left">应聘职位</div>
             <div className="right">
-              <input type="text" placeholder="请输入招聘职位" onChange={v=>this.handleChange('title',v)} value={title}/>
+              <input type="text" placeholder="请输入应聘职位" onChange={v=>this.handleChange('title',v)} value={title}/>
             </div>
           </div>
           <div className="input-list">
-            <div className="left">公司名称</div>
+            <div className="left">期望薪资</div>
             <div className="right">
-              <input type="text" placeholder="请输入招聘职位" onChange={v=>this.handleChange('company',v)} value={company}/>
+              <input type="text" placeholder="请输入期望薪资" onChange={v=>this.handleChange('money',v)} value={money}/>
             </div>
           </div>
           <div className="input-list">
-            <div className="left">职位薪资</div>
+            <div className="left">个人简介</div>
             <div className="right">
-              <input type="text" placeholder="请输入招聘职位" onChange={v=>this.handleChange('money',v)} value={money}/>
-            </div>
-          </div>
-          <div className="input-list">
-            <div className="left">招聘要求</div>
-            <div className="right">
-              <textarea placeholder="职位要求" onChange={v=>this.handleChange('desc',v)} value={desc}></textarea>
+              <textarea placeholder="个人简介" onChange={v=>this.handleChange('desc',v)} value={desc}></textarea>
             </div>
           </div>
           <div className="btn-box">
@@ -75,6 +66,6 @@ class BossInfo extends Component {
   handleUpdate () {
     this.props.update(this.state);
   }
-}
+};
 
-export default BossInfo;
+export default HunterInfo;

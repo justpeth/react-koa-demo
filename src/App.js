@@ -9,31 +9,32 @@ import Authorize from './components/authorize';
 import Login from './container/login';
 import Register from './container/register';
 import bossInfo from './container/bossinfo';
+import HunterInfo from './container/hunterinfo';
+import Dashboard from './container/dashboard'
 
-
-function hunterinfo () {
-  return (<div>hunterinfo</div>)
-}
-
+@hot(
+  module
+)
 class App extends Component {
-  render() {
+  render () {
     return (
       <Provider store={store}>
         <Router>
           <Fragment>
             <Authorize></Authorize>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/bossinfo" component={bossInfo} />
-            <Route path="/hunterinfo" component={hunterinfo} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
+            <Route path="/bossinfo" exact component={bossInfo} />
+            <Route path="/hunterinfo" exact component={HunterInfo} />
+            <Route component={Dashboard}></Route>
           </Fragment>
         </Router>
       </Provider>
     )
   }
   buttonClickHandle () {
-    
+
   }
 }
 
-export default hot(module)(App);
+export default App;

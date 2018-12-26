@@ -21,13 +21,16 @@ const models = {
       type: String,
       require: true
     },
+    // 类型
     type: {
       type: String,
       require: true
     },
+    // 资料是否完善
     integrity: {
       type: Boolean,
     },
+    // 介绍
     desc: {
       type: String
     },
