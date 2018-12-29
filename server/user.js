@@ -5,6 +5,7 @@ const router = new Router();
 
 router
   .get('/', UserMthods.GetAllUsers)
+  .get('/list', UserMthods.GetUserList)
   .post('/doregister', UserMthods.Register)
   .post('/login', UserMthods.Login)
   .post('/update', UserMthods.Update)

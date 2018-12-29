@@ -114,6 +114,7 @@ export function user (state = initState, action) {
 		case LOAD_USER_DATA:
 			return {
 				...state,
+				redirectTo: getRedirectPath( action.payload),
 				...action.payload
 			}
 		case ERROR_MSG: 

@@ -35,5 +35,12 @@ export default {
       params,
       type: 'post'
     })
+  },
+  getUserList (params) {
+    return Ajax({
+      url: 'users/list',
+      params,
+      type: 'get'
+    })
   }
 }

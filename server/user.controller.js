@@ -15,9 +15,9 @@ const findUser = (params) => {
 };
 // 
 //找到所有用户
-const findAllUsers = (params) => {
+const findAllUsers = (params, filter) => {
   return new Promise((resolve, reject) => {
-    User.find(params,  (err, doc) => {
+    User.find(params, filter,(err, doc) => {
       if(err){
         reject(err);
       }
@@ -189,6 +189,23 @@ const Update = async (ctx) => {
   })
 }
 
+const GetUserList = async (ctx) => {
+  let params = ctx.request.query
+  await findAllUsers(params, {__v: false, password: false}).then(res => {
+    ctx.body = {
+      code: 0,
+      data: res
+    }
+  }).catch(
+    err => {
+      ctx.body = {
+        code:1,
+        message: '数据库出错'
+      }
+    }
+  );
+}
+
 function md5Pwd(str){
   const salt = `justPeth_react_${str}_KOA_demo@version.1`
   const salt1 = utils.md5(salt)
@@ -200,6 +217,7 @@ module.exports = {
   Login,
   GetUserInfo,
   GetAllUsers,
+  GetUserList,
   DelUser,
   Update
 };

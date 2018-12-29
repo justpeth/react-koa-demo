@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withRouter, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {update} from '../../store/user.redux';
@@ -9,7 +9,6 @@ import {
   InfoWrapper
 } from './style.js';
 
-@withRouter
 @connect(
   state=>state.user,
   {update}

@@ -16,7 +16,7 @@ html {
     font-family: 'Robot';
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     font-size: 62.5%;
-    background: transparent;
+    background: #f5f5f5;
 }
 
 body {
@@ -113,4 +113,29 @@ button,
 input,
 textarea {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@font-face {
+  font-family: 'm-iconfont';  /* project id 657935 */
+  src: url('//at.alicdn.com/t/font_657935_f2id9rmejvr.eot');
+  src: url('//at.alicdn.com/t/font_657935_f2id9rmejvr.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_657935_f2id9rmejvr.woff') format('woff'),
+  url('//at.alicdn.com/t/font_657935_f2id9rmejvr.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_657935_f2id9rmejvr.svg#m-iconfont') format('svg');
+}
+
+.icon-font{
+  font-family: 'm-iconfont';
+  display: inline-block;
+  font-size: 16px;
+  color:#999;
+  font-style: normal;
+}
+
+.nodata{
+    text-align: center;
+    line-height: 0.88rem;
+    color: #999;
+    font-size: 0.22rem;
+    background: #f5f5f5;
 }
