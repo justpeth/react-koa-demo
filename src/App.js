@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router,Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
@@ -12,6 +12,9 @@ import bossInfo from './container/bossinfo';
 import HunterInfo from './container/hunterinfo';
 import Dashboard from './container/dashboard'
 
+@hot(
+  module
+)
 class App extends Component {
   render () {
     return (
@@ -36,4 +39,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App);
+export default App;

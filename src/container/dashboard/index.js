@@ -9,13 +9,12 @@ import {
 
 import Hunter from '../../components/hunter'
 import Boss from '../../components/boss'
+import User from '../../components/user'
 
 function Msg () {
   return <h2>消息列表</h2>
 }
-function User () {
-  return <h2>个人中心</h2>
-}
+
 
 @connect(
   state => state.user

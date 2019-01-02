@@ -6,7 +6,7 @@ import {loadUserData} from '../store/user.redux'
 
 @withRouter
 @connect(
-  null,
+  state => state.user,
   {loadUserData}
 )
 class Authorize extends React.Component{

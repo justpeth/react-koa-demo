@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {login} from '../../store/user.redux';
 
 import {
   LoginWrapper
 } from './style';
-@withRouter
 @connect(
   state => state.user,
   { login }
@@ -24,9 +23,10 @@ class Login extends Component{
   render(){
     const { username, password } = this.state;
     const {redirectTo} = this.props;
+    const {pathname} = this.props.location
     return (
       <LoginWrapper>
-        {redirectTo ? <Redirect to={redirectTo}/> : null }
+        {redirectTo && pathname !== redirectTo ? <Redirect to={redirectTo}/> : null }
         <h3 className="title">用户登录</h3>
         <label htmlFor="username" className="label">
           <input id="username" type="text" placeholder="用户名" onChange={v=>this.handleChange('username',v)} value={username}/>

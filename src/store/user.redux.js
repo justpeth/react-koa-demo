@@ -7,6 +7,7 @@ import Toast from '../components/toast';
 const AUTH_SUCCESS = 'AUTH_SUCCESS'
 const ERROR_MSG = 'ERROR_MSG'
 const LOAD_USER_DATA = 'LOAD_USER_DATA'
+const LOGOUT = 'LOGOUT'
 
 // actionCreators
 
@@ -41,6 +42,12 @@ export function login({username, password}){
 					dispatch(loginSuccess(res.data))
 				}
 			})
+	}
+}
+
+export function logout () {
+	return {
+		type: LOGOUT
 	}
 }
 
@@ -100,7 +107,8 @@ const initState= {
 	redirectTo: '', // 跳转页面
 	message: '',	// 登录或者注册显示的message 空时表示注册登录成功 不为空则为失败的消息
   username: '', // 用户姓名
-	type: '' // 用户类型 boss 或者 牛人
+	type: '', // 用户类型 boss 或者 牛人
+	isAuthrize: false
 };
 export function user (state = initState, action) {
 	switch(action.type) {
@@ -122,6 +130,11 @@ export function user (state = initState, action) {
 				...state,
 				message: action.message,
 				isAuthrize: false,
+			}
+		case LOGOUT:
+			return {
+				...initState,
+				redirectTo: '/login'
 			}
 		default:
 			return state;
